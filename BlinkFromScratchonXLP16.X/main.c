@@ -8,12 +8,12 @@
     main.c
 
   Summary:
-    This is the main file generated using MPLAB® Code Configurator
+    This is the main file generated using MPLABÂ® Code Configurator
 
   Description:
     This header file provides implementations for driver APIs for all modules selected in the GUI.
     Generation Information :
-        Product Revision  :  MPLAB® Code Configurator - v2.25.2
+        Product Revision  :  MPLABÂ® Code Configurator - v2.25.2
         Device            :  PIC24F16KA102
         Driver Version    :  2.00
     The generated drivers are tested against the following:
@@ -62,7 +62,7 @@ int main(void) {
     uint8_t uartBytesWritten = 0;
     uint8_t* tempPtr;
     uint16_t tmrValue;
-    UART2_TRANSFER_STATUS status ;
+    //UART2_TRANSFER_STATUS status ;
     
     //intialize the Board Power VDD_Board
     IO_RB2_SetLow(); 
