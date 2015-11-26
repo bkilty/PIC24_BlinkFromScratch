@@ -58,7 +58,7 @@ int main(void) {
     char name[]="Hello PI! Brennan and Amanda sitting in a tree KISSING!\r\n";
     uint8_t uartBuffer[128];
     uint8_t i = 0;
-    uint8_t j = 0;
+    //uint8_t j = 0;
     uint8_t uartBytesWritten = 0;
     uint8_t* tempPtr;
     uint16_t tmrValue;
