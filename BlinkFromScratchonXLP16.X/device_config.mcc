@@ -131,7 +131,7 @@
         </module>
         <module generated="true" mode="TMR" name="TMR3" order="3" reloadPin="auto" type="tmr_32b">
             <initializer comment="" name="Initialize">
-                <setting name="TCKPS" option="1:64" register="T3CON"/>
+                <setting name="TCKPS" option="1:256" register="T3CON"/>
                 <setting name="TON" option="enabled" register="T3CON"/>
                 <setting name="TSIDL" option="disabled" register="T3CON"/>
                 <setting name="TCS" option="FOSC/2" register="T3CON"/>
@@ -140,14 +140,14 @@
                 <setting name="PR3" option="64" register="PR3"/>
                 <additionalSetting name="timerFrequency" option="4000000.0"/>
                 <additionalSetting name="tmrReloadValue" option="0"/>
-                <additionalSetting name="tickerInSec" option="1.024 ms"/>
+                <additionalSetting name="tickerInSec" option="4.096 ms"/>
                 <additionalSetting name="tickerPeriod" option="1"/>
                 <additionalSetting name="tmrPeriodValue" option="64"/>
-                <additionalSetting name="tmrPeriod" option="1.024 ms"/>
+                <additionalSetting name="tmrPeriod" option="4.096 ms"/>
             </initializer>
             <setting name="TI" option="true"/>
             <setting name="tmrUpperHalf" option="0"/>
-            <file checksum="2862774863" modified="true" name="tmr3.c" path="mcc_generated_files/tmr3.c"/>
+            <file checksum="949123839" modified="true" name="tmr3.c" path="mcc_generated_files/tmr3.c"/>
             <file checksum="3365300322" modified="true" name="tmr3.h" path="mcc_generated_files/tmr3.h"/>
         </module>
     </modules>

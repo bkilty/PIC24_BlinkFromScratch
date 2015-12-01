@@ -45,6 +45,9 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
  */
 
 #include "mcc_generated_files/mcc.h"
+#include "stdlib.h"
+#include "math.h"
+#include "string.h"
 
 
 
@@ -55,10 +58,13 @@ int main(void) {
     // initialize the device
     SYSTEM_Initialize();
     uint16_t portValue;
-    char name[]="Hello PI! Brennan and Amanda sitting in a tree KISSING!\r\n";
+    char introduction[]="Here are some messages from PIC. \r\n";
+    char append[4][3];
+    uint8_t appendCount = 0;
     uint8_t uartBuffer[128];
     uint8_t i = 0;
-    //uint8_t j = 0;
+    char currentCountAscii[16];
+    uint8_t sLength = 0;
     uint8_t uartBytesWritten = 0;
     uint8_t* tempPtr;
     uint16_t tmrValue;
@@ -67,14 +73,13 @@ int main(void) {
     //intialize the Board Power VDD_Board
     IO_RB2_SetLow(); 
     
-    //Testing UART code
-    while(name[i] != '\0')
-    {
-        uartBuffer[i] = (uint8_t)name[i];
-        i++;
-    }
-
-    uartBuffer[i] = (uint8_t)name[i];
+//    //Testing UART code
+//    while(name[i] != '\0')
+//    {
+//        uartBuffer[i] = (uint8_t)name[i];
+//        i++;
+//    }
+//    uartBuffer[i] = (uint8_t)name[i];
     /*
     IO_RB15_SetHigh();
     
@@ -97,6 +102,13 @@ int main(void) {
     IO_RB15_SetHigh();
      */
 
+      
+    memcpy((void*)append[0], (void*)"th",3);
+    memcpy((void*)append[1], (void*)"st",3);
+    memcpy((void*)append[2], (void*)"nd",3);
+    memcpy((void*)append[3], (void*)"rd",3);
+    
+    
     while (1) {
         
         //IO_RB15_SetLow();
@@ -106,27 +118,37 @@ int main(void) {
         //portValue = IO_RB7_GetValue();
         //if(portValue == 1)
         
+        if(i == 0)
+        {
+            strcpy(uartBuffer, introduction);
+            sLength = strlen(uartBuffer);
+            i++;
             
-        
+        }else{      
+         appendCount = i%10;
+         if(appendCount > 3)
+             appendCount = 0;
+         sLength = sprintf(uartBuffer, "PIC %d%s Transmission\r\n", i,append[appendCount]);
+         i++;
+        }
         uartBytesWritten = 0;
         
-        while(uartBytesWritten < i)
+        while(uartBytesWritten < sLength)
         {
             //status = UART2_TransferStatusGet ( ) ;
-            tempPtr = uartBuffer + uartBytesWritten;
-            uartBytesWritten += UART2_WriteBuffer(uartBuffer+uartBytesWritten, UART2_TransmitBufferSizeGet());
-            UART2_TasksTransmit();
             if (!UART2_TransmitBufferIsFull())
             {
-                
-                //IO_RB15_SetLow();
-                //TMR3_delay_ms(_XTAL_FREQ, 100);
-                
-            }   
-            //IO_RB15_SetHigh();
+                tempPtr = uartBuffer + uartBytesWritten;
+                uartBytesWritten += UART2_WriteBuffer(uartBuffer+uartBytesWritten, UART2_TransmitBufferSizeGet());
+            }               
+            UART2_TasksTransmit();
+             
             
         }
-        TMR3_delay_ms(_XTAL_FREQ, 500);
+        if(i==1)
+            TMR3_delay_ms(_XTAL_FREQ, 3000); //delay just so I can see the first message
+        //else
+          //  TMR3_delay_ms(_XTAL_FREQ, 10);
         
     }
 

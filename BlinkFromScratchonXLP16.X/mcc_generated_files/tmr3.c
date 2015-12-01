@@ -85,11 +85,11 @@ static TMR_OBJ tmr3_obj;
 
 
 void TMR3_Initialize(void) {
-    //TCKPS 1:64; TON enabled; TSIDL disabled; TCS FOSC/2; TGATE disabled; 
-    T3CON = 0x8020;
+    //TCKPS 1:256; TON enabled; TSIDL disabled; TCS FOSC/2; TGATE disabled; 
+    T3CON = 0x8030;
     //TMR3 0; 
     TMR3 = 0x0000;
-    //Period Value = 1.024 ms; PR3 64; 
+    //Period Value = 4.096 ms; PR3 64; 
     PR3 = 0x0040;
 
     IFS0bits.T3IF = false;
@@ -258,7 +258,7 @@ void TMR3_delay_ms(uint32_t sysClockSpeed, uint16_t mSec)
     //T2CON = 0x0000;
     TMR3_Stop();
     
-    uint16_t periodValue = (sysClockSpeed/128000) * mSec; // mS
+    uint16_t periodValue = (sysClockSpeed/(512000)) * mSec; // mS NOTE: 512,000 = 2*prescaler of 256*1000 ms in a second
     TMR3_Period16BitSet(periodValue);
     TMR3_Counter16BitSet(0); //reset the timer value
     
