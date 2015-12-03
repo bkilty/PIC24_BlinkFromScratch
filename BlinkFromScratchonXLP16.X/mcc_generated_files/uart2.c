@@ -145,6 +145,7 @@ void UART2_Initialize(void) {
     // Baud Rate = 9600; BRG 103; 
     U2BRG = 0x0067;
 
+    IEC1bits.U2RXIE = 1;
 
     U2STAbits.UTXEN = 1;
 
@@ -168,8 +169,9 @@ void DRV_UART2_Initialize(void) {
 /**
     Maintains the driver's transmitter state machine and implements its ISR
  */
-void UART2_TasksTransmit(void) {
+void __attribute__((interrupt, no_auto_psv)) _U2TXInterrupt(void) {
     if (uart2_obj.txStatus.s.empty) {
+        IEC1bits.U2TXIE = false;
         return;
     }
 
@@ -196,14 +198,7 @@ void UART2_TasksTransmit(void) {
     }
 }
 
-/**
-   void DRV_UART2_TasksTransmit ( void )
- */
-void DRV_UART2_TasksTransmit(void) {
-    UART2_TasksTransmit();
-}
-
-void UART2_TasksReceive(void) {
+void __attribute__((interrupt, no_auto_psv)) _U2RXInterrupt(void) {
     int count = 0;
 
     while ((count < UART2_RX_FIFO_LENGTH) && (U2STAbits.URXDA == 1)) {
@@ -231,26 +226,12 @@ void UART2_TasksReceive(void) {
 
 }
 
-/**
-   void DRV_UART2_TasksReceive ( void )
- */
-void DRV_UART2_TasksReceive(void) {
-    UART2_TasksReceive();
-}
-
-void UART2_TasksError(void) {
+void __attribute__((interrupt, no_auto_psv)) _U2ErrInterrupt(void) {
     if ((U2STAbits.OERR == 1)) {
         U2STAbits.OERR = 0;
     }
 
     IFS4bits.U2ERIF = false;
-}
-
-/**
-   void DRV_UART2_TasksError ( void )
- */
-void DRV_UART2_TasksError(void) {
-    UART2_TasksError();
 }
 
 /**
@@ -319,6 +300,9 @@ void UART2_Write(const uint8_t byte) {
         uart2_obj.txStatus.s.full = true;
     }
 
+    if (IEC1bits.U2TXIE == false) {
+        IEC1bits.U2TXIE = true;
+    }
 
 }
 

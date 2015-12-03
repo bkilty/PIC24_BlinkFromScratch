@@ -17,10 +17,16 @@
         <manager generated="true" name="Interrupt Manager" reloadPin="manual">
             <resource name="TI" type="TMR2" value="1"/>
             <resource name="TI" type="TMR3" value="1"/>
-            <file checksum="3610025363" modified="false" name="interrupt_manager.c" path="mcc_generated_files/interrupt_manager.c"/>
+            <resource name="URXI" type="UART2" value="1"/>
+            <resource name="UTXI" type="UART2" value="1"/>
+            <resource name="UERI" type="UART2" value="1"/>
+            <file checksum="2833112256" modified="false" name="interrupt_manager.c" path="mcc_generated_files/interrupt_manager.c"/>
             <file checksum="2783117430" modified="false" name="interrupt_manager.h" path="mcc_generated_files/interrupt_manager.h"/>
             <interrupt module="TMR2" name="TI" priority="1"/>
             <interrupt module="TMR3" name="TI" priority="1"/>
+            <interrupt module="UART2" name="URXI" priority="1"/>
+            <interrupt module="UART2" name="UTXI" priority="1"/>
+            <interrupt module="UART2" name="UERI" priority="1"/>
         </manager>
         <manager generated="true" name="System" reloadPin="manual">
             <initializer comment="" name="Initialize">
@@ -121,13 +127,13 @@
                 <setting name="BRG" option="103" register="U2BRG"/>
                 <additionalSetting name="baudRateInput" option="9600"/>
             </initializer>
-            <setting name="URXI" option="false"/>
-            <setting name="UTXI" option="false"/>
-            <setting name="UERI" option="false"/>
+            <setting name="URXI" option="true"/>
+            <setting name="UTXI" option="true"/>
+            <setting name="UERI" option="true"/>
             <setting name="rxBufSize" option="8"/>
             <setting name="txBufSize" option="8"/>
-            <file checksum="970783148" modified="false" name="uart2.c" path="mcc_generated_files/uart2.c"/>
-            <file checksum="1016109208" modified="false" name="uart2.h" path="mcc_generated_files/uart2.h"/>
+            <file checksum="3446857287" modified="false" name="uart2.c" path="mcc_generated_files/uart2.c"/>
+            <file checksum="695262827" modified="false" name="uart2.h" path="mcc_generated_files/uart2.h"/>
         </module>
         <module generated="true" mode="TMR" name="TMR3" order="3" reloadPin="auto" type="tmr_32b">
             <initializer comment="" name="Initialize">
