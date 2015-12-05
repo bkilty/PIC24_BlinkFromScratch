@@ -119,9 +119,14 @@ int main(void) {
         
         // Read RB7
         portValue = IO_RB7_GetValue();
-        //if(portValue == 1)
+        if(portValue == 1)
+            IO_RB15_SetLow();
+        else
+        {
+            IO_RB15_SetHigh();
             //print the status of the UART2 Peripheral
-            //uartPrintStatus();
+            uartPrintStatus();
+        }
         
         if(i == 0)
         {
